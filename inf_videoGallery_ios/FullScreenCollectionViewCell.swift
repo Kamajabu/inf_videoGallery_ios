@@ -9,14 +9,12 @@
 import UIKit
 import AVFoundation
 
-protocol CollectionViewCellDelegate: class {
-    func cellDelegateCloseController(sender: AnyObject)
-}
 class FullScreenCollectionViewCell: UICollectionViewCell {
 
-
-    let avPlayer = AVPlayer()
-    var avPlayerLayer: AVPlayerLayer!
+    var index = 0
+    
+    private var avPlayer: AVPlayer!
+    private var avPlayerLayer: AVPlayerLayer!
 
     let playerButton = UIButton()
 
@@ -27,22 +25,16 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
     let seekSlider = UISlider()
     var playerRateBeforeSeek : Float = 0
 
+    var isPlayerCreated = false
+
     @IBOutlet weak var containerView: UIView!
-    weak var closeDelegate: CollectionViewCellDelegate?
 
+    func initPlayer(_ videoAddress: String) {
+        avPlayer = AVPlayer()
 
-    func setGalleryItem(_ item:MusicItem) {
-//        itemImage.image = UIImage(named: item.itemImage)
-    }
-
-    func stopPlayer() {
-        avPlayer.pause()
-    }
-
-    func loadPlayer() {
         containerView.backgroundColor = .black
 
-//        var view = UIView(frame: CGRectMake(0, 0, containerView.width, containerView.height))
+        //        var view = UIView(frame: CGRectMake(0, 0, containerView.width, containerView.height))
 
 
         // An AVPlayerLayer is a CALayer instance to which the AVPlayer can
@@ -57,21 +49,25 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
         playerButton.addTarget(containerView, action: #selector(playerButtonTapped), for: .touchUpInside)
 
 
-        let url = NSURL(string: "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
+        let url = NSURL(string: videoAddress)
 
-//        var asset = AVAsset(url: url as! URL)
-//        var imageGenerator = AVAssetImageGenerator(asset: asset)
-//        var time = CMTimeMake(1, 1)
-//
-//        var imageRef = try! imageGenerator.copyCGImage(at: time, actualTime: nil)
-//        var thumbnail = UIImage(cgImage:imageRef)
-//
-//        self.containerView.backgroundColor = UIColor(patternImage: thumbnail)
+        //        var asset = AVAsset(url: url as! URL)
+        //        var imageGenerator = AVAssetImageGenerator(asset: asset)
+        //        var time = CMTimeMake(1, 1)
+        //
+        //        var imageRef = try! imageGenerator.copyCGImage(at: time, actualTime: nil)
+        //        var thumbnail = UIImage(cgImage:imageRef)
+        //
+        //        self.containerView.backgroundColor = UIColor(patternImage: thumbnail)
 
 
         let playerItem = AVPlayerItem(url: url! as URL)
         avPlayer.replaceCurrentItem(with: playerItem)
-        avPlayer.play()
+
+    }
+
+
+    func createPlayer() {
 
         //timer info
         let timeInterval : CMTime = CMTimeMakeWithSeconds(1.0, 10)
@@ -81,17 +77,32 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
 
 
         }) as AnyObject!
-//            // print("the time has now been:", CMTimeGetSeconds(elapsedTime))
-////            self.containerView.observeTime(elapsedTime: elapsedTime)
-//            self.timeRemainingLabel.textColor = .white
-//            self.containerView.addSubview(self.timeRemainingLabel)
-//
-//            //buffer indicator
-////            self.loadingIndicatorView.hidesWhenStopped = true
-////            self.view.addSubview(self.loadingIndicatorView)
-////            self.avPlayer.addObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp", options: .new, context: &playbackLikelyToKeepUpContext)
-//
-//        }) as AnyObject!
+        //            // print("the time has now been:", CMTimeGetSeconds(elapsedTime))
+        ////            self.containerView.observeTime(elapsedTime: elapsedTime)
+        //            self.timeRemainingLabel.textColor = .white
+        //            self.containerView.addSubview(self.timeRemainingLabel)
+        //
+        //            //buffer indicator
+        ////            self.loadingIndicatorView.hidesWhenStopped = true
+        ////            self.view.addSubview(self.loadingIndicatorView)
+        ////            self.avPlayer.addObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp", options: .new, context: &playbackLikelyToKeepUpContext)
+        //
+        //        }) as AnyObject!
+    }
+
+    func stopPlayer() {
+//        avPlayer.removeTimeObserver(timeWatcher)
+        avPlayer.pause()
+//        avPlayer.removeTimeObserver(timeWatcher)
+//        avPlayer = nil
+    }
+
+    func loadPlayer(_ videoAddress: String) {
+        if(avPlayer == nil) {
+            self.initPlayer(videoAddress)
+        }
+        avPlayer.play()
+
     }
 
     func handlePlayerStatus(time: CMTime) {

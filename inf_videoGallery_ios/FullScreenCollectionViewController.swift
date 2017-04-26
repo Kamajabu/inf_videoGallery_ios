@@ -11,7 +11,7 @@ import AVFoundation
 
 private let reuseIdentifier = "CollectionViewCell"
 
-extension PlayerViewController: CollectionViewCellDelegate {
+extension PlayerViewController {
 
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -30,10 +30,9 @@ extension PlayerViewController: CollectionViewCellDelegate {
         imageView.addBlurEffect()
         cell.backgroundView = UIView()
         cell.backgroundView!.addSubview(imageView)
+//        cell.initPlayer()
 
-//        cell.setGalleryItem(musicItems[indexPath.row])
-//        cell.loadPlayer()
-        cell.closeDelegate = self
+        cell.index = indexPath.row
 
 
         return cell
@@ -47,9 +46,6 @@ extension PlayerViewController: CollectionViewCellDelegate {
         return CGSize(width: collectionView.frame.width , height: collectionView.frame.height )
     }
 
-    func cellDelegateCloseController(sender: AnyObject){
-        dismiss(animated: true, completion: nil)
-    }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -59,13 +55,16 @@ extension PlayerViewController: CollectionViewCellDelegate {
     func actionOnFinishedScrolling() {
         if let visibleCell = collectionView.visibleCells.last {
         trackId = collectionView.indexPath(for: visibleCell)!.row
+            let cell = visibleCell as! FullScreenCollectionViewCell
+            print(cell.index)
+            cell.loadPlayer(musicItems[trackId].videoAddress)
         }
 
-        audioPlayer.currentTime = 0
-        progressView.progress = 0
-
-        chooseImageTitleArtist(trackId)
-        loadMp3(trackId)
+//        audioPlayer.currentTime = 0
+//        progressView.progress = 0
+//
+//        chooseImageTitleArtist(trackId)
+//        loadMp3(trackId)
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {

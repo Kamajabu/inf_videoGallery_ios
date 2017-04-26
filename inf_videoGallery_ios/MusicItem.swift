@@ -14,12 +14,15 @@ class MusicItem {
     var itemImage: String
     var title: String
     var artist: String
+    var videoAddress: String
 
     init(dataDictionary:Dictionary<String,String>) {
         fileName = dataDictionary["fileName"]!
         artist = dataDictionary["artist"]!
         title = dataDictionary["title"]!
         itemImage = dataDictionary["itemImage"]!
+        videoAddress = dataDictionary["videoAddress"]!
+
 
     }
 

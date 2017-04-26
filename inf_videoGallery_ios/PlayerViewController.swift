@@ -48,7 +48,7 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func viewDidAppear(_ animated: Bool) {
         if let visibleCell = collectionView.visibleCells.last {
             let cell = visibleCell as! FullScreenCollectionViewCell
-            cell.loadPlayer()
+            cell.loadPlayer(musicItems[trackId].videoAddress)
         }
 
     }
