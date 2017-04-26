@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-
+import AVFoundation
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
@@ -16,6 +15,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet var collectionView: UICollectionView!
 
     var musicItems: [MusicItem] = []
+    var galleryItems: [UIImage] = []
+    
     var selectedItem: IndexPath?
     
     // MARK: -
@@ -52,6 +53,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         
         musicItems = items
+    }
+    
+    func downloadImages() {
+        for item in musicItems {
+        do {
+            let url = NSURL(string: item.videoAddress)
+            let asset = AVURLAsset(url: url as! URL, options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(5, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            
+            itemImageView.image = thumbnail
+            
+        } catch let error {
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+        }
+        }
     }
     
     // MARK: -
