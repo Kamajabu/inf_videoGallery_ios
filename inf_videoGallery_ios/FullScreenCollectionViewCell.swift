@@ -12,11 +12,12 @@ import AVFoundation
 class FullScreenCollectionViewCell: UICollectionViewCell {
 
     var index = 0
-    
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     //set variables for video play
     var playerItem:AVPlayerItem?
     var player:AVPlayer?
-    var playerLayer = AVPlayerLayer()  //NEW playerLayer var location
+    var playerLayer = AVPlayerLayer()
 
     var timeWatcher : AnyObject!
 
@@ -31,12 +32,14 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
 
     var createLayerSwitch = true
     func closePlayer(){
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         if (createLayerSwitch == false) {
-            player!.pause()
+            if let _ = player {
+                player!.pause()
+            }
             player = nil
             playerLayer.removeFromSuperlayer()
-//            containerView.layer.removeFromSuperlayer()
-//            playerLayer.removefromsuperlayer()
         }
     }
 
@@ -45,41 +48,63 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
 
         playerItem = AVPlayerItem(url: url as! URL)
         player = AVPlayer(playerItem: playerItem!)
-        playerLayer = AVPlayerLayer(player: player!) //NEW: remove 'let' from playeLayer here.
+        playerLayer = AVPlayerLayer(player: player!)
 
 
-        containerView.backgroundColor = .black
+        //        containerView.backgroundColor = .black
+        playerLayer.frame = containerView.bounds
 
         containerView.layer.addSublayer(playerLayer)
-        playerLayer.frame = containerView.bounds
 
         player!.play()
 
+        let timeInterval : CMTime = CMTimeMakeWithSeconds(1.0, 10)
+        timeWatcher = player!.addPeriodicTimeObserver(forInterval: timeInterval, queue: DispatchQueue.main, using: { [weak self] time in
+         self?.handlePlayerStatus(time: time)
+        }) as AnyObject!
+
+
         createLayerSwitch = false
+    }
+
+    func handlePlayerStatus(time: CMTime) {
+        print("the time has now been:", CMTimeGetSeconds(time))
+
+        if player?.status == .readyToPlay {
+            activityIndicator.isHidden = true
+            // buffering is finished, the player is ready to play
+            print("playing")
+        }
+        if player?.status == .unknown{
+            activityIndicator.isHidden = false
+            print("Buffering")
+        }
     }
 }
 
 
-        //this is for the button, we will do it through storyboard
+
+
+//this is for the button, we will do it through storyboard
 //        containerView.addSubview(playerButton)
 //        playerButton.addTarget(containerView, action: #selector(playerButtonTapped), for: .touchUpInside)
 
 
 
-        //        var asset = AVAsset(url: url as! URL)
-        //        var imageGenerator = AVAssetImageGenerator(asset: asset)
-        //        var time = CMTimeMake(1, 1)
-        //
-        //        var imageRef = try! imageGenerator.copyCGImage(at: time, actualTime: nil)
-        //        var thumbnail = UIImage(cgImage:imageRef)
-        //
-        //        self.containerView.backgroundColor = UIColor(patternImage: thumbnail)
+//        var asset = AVAsset(url: url as! URL)
+//        var imageGenerator = AVAssetImageGenerator(asset: asset)
+//        var time = CMTimeMake(1, 1)
+//
+//        var imageRef = try! imageGenerator.copyCGImage(at: time, actualTime: nil)
+//        var thumbnail = UIImage(cgImage:imageRef)
+//
+//        self.containerView.backgroundColor = UIColor(patternImage: thumbnail)
 
 
 //        let playerItem = AVPlayerItem(url: url! as URL)
 //        avPlayer.replaceCurrentItem(with: playerItem)
 
-    
+
 
 //
 //    func createPlayer() {
@@ -120,15 +145,5 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
 //
 //    }
 //
-//    func handlePlayerStatus(time: CMTime) {
-//        print("the time has now been:", CMTimeGetSeconds(time))
-//
-//        if avPlayer.status == .readyToPlay {
-//            // buffering is finished, the player is ready to play
-//            print("playing")
-//        }
-//        if avPlayer.status == .unknown{
-//            print("Buffering")
-//        }
-//    }
+
 

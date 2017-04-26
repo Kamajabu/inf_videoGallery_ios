@@ -18,6 +18,7 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var rewindBack: UIBarButtonItem!
 
     @IBOutlet weak var playPause: UIButton!
+
     var isFirstStart = true
 
     var lastVisibleCellNumber: Int!
@@ -27,7 +28,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     var musicItems: [MusicItem] = []
 
     var trackId: Int = 0
-    var audioPlayer: AVAudioPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,77 +47,32 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        if let visibleCell = collectionView.visibleCells.last {
-            let cell = visibleCell as! FullScreenCollectionViewCell
-            cell.showVideo(musicItems[trackId].videoAddress)
-        }
-
-    }
-
     @IBAction func backButtonDidTouch(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        audioPlayer.stop()
     }
 
-    func updateProgressView(){
-        if audioPlayer.isPlaying {
-            progressView.setProgress(Float(audioPlayer.currentTime/audioPlayer.duration), animated: true)
-        }
-    }
 
     @IBAction func playAction(_ sender: AnyObject) {
-        if !audioPlayer.isPlaying {
-            audioPlayer.play()
-            if let image = UIImage(named: "pause") {
-                UIView.transition(with: playPause, duration: 0.4, options: .transitionFlipFromRight, animations: {
-                    sender.setImage(image, for: .normal)
-                }, completion: nil)
-            }
-        } else {
-            audioPlayer.pause()
-            if let image = UIImage(named:"circled_play") {
-                UIView.transition(with: playPause, duration: 0.4, options: .transitionFlipFromRight, animations: {
-                    sender.setImage(image, for: .normal)
-                }, completion: nil)
-            }
-        }
+
     }
 
     func stopAction(_ sender: AnyObject) {
-        audioPlayer.stop()
-        audioPlayer.currentTime = 0
+
         progressView.progress = 0
     }
 
     @IBAction func pauseAction(_ sender: AnyObject) {
-        audioPlayer.pause()
     }
 
     @IBAction func fastForwardAction(_ sender: AnyObject) {
-        var time: TimeInterval = audioPlayer.currentTime
-        time += 5.0
-
-        if time > audioPlayer.duration {
-            stopAction(self)
-        }else {
-            audioPlayer.currentTime = time
-        }
 
     }
 
     @IBAction func rewindAction(_ sender: AnyObject) {
-        var time: TimeInterval = audioPlayer.currentTime
-        time -= 5.0
 
-        if time < 0 {
-            stopAction(self)
-        }else {
-            audioPlayer.currentTime = time
-        }
     }
 
 
@@ -130,7 +85,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
             trackId = 11
         }
 
-        audioPlayer.currentTime = 0
         progressView.progress = 0
 
         chooseImageTitleArtist(trackId)    }
@@ -145,7 +99,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
             trackId = 0
         }
 
-        audioPlayer.currentTime = 0
         progressView.progress = 0
 
         chooseImageTitleArtist(trackId)

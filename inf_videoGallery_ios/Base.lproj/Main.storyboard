@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Unknown constraint types" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -105,8 +104,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView verifyAmbiguity="ignoreSizes" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9L-tV-CpZ">
-                                <rect key="frame" x="12" y="32" width="363" height="392"/>
+                            <collectionView verifyAmbiguity="ignoreSizes" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c9L-tV-CpZ">
+                                <rect key="frame" x="12" y="32" width="351" height="392"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="41U-4m-5Gy">
                                     <size key="itemSize" width="349" height="359"/>
@@ -123,22 +122,34 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vse-7c-XtX">
-                                                    <rect key="frame" x="8" y="8" width="333" height="343"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="349" height="359"/>
+                                                    <subviews>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="NXP-Cb-7Yi">
+                                                            <rect key="frame" x="149" y="154" width="50" height="50"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="QVW-Bl-ZmW"/>
+                                                                <constraint firstAttribute="height" constant="50" id="h2j-7q-yFJ"/>
+                                                            </constraints>
+                                                        </activityIndicatorView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.86110009517766495" green="0.86110009517766495" blue="0.86110009517766495" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="NXP-Cb-7Yi" firstAttribute="centerY" secondItem="vse-7c-XtX" secondAttribute="centerY" id="2ed-jW-qyc"/>
+                                                        <constraint firstItem="NXP-Cb-7Yi" firstAttribute="centerX" secondItem="vse-7c-XtX" secondAttribute="centerX" id="ogK-I6-mYl"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.7050901651" green="0.79234653710000003" blue="0.90155589579999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.68915671109999999" green="0.086102761329999999" blue="0.3450102806" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="leading" secondItem="iEA-fK-co5" secondAttribute="leading" id="7NX-Gg-xwx"/>
-                                            <constraint firstItem="vse-7c-XtX" firstAttribute="top" secondItem="iEA-fK-co5" secondAttribute="topMargin" id="HSc-Fb-myG"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="vse-7c-XtX" secondAttribute="bottom" id="J06-ZC-hFe"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="vse-7c-XtX" secondAttribute="trailing" id="RaZ-gy-yVz"/>
-                                            <constraint firstAttribute="top" secondItem="iEA-fK-co5" secondAttribute="top" id="fTG-bd-Sn5"/>
-                                            <constraint firstItem="vse-7c-XtX" firstAttribute="leading" secondItem="iEA-fK-co5" secondAttribute="leadingMargin" id="xhK-cp-5tU"/>
+                                            <constraint firstAttribute="bottom" secondItem="vse-7c-XtX" secondAttribute="bottom" id="0qF-bp-5Ta"/>
+                                            <constraint firstItem="vse-7c-XtX" firstAttribute="leading" secondItem="iEA-fK-co5" secondAttribute="leading" id="5fO-Hu-Kb0"/>
+                                            <constraint firstAttribute="trailing" secondItem="vse-7c-XtX" secondAttribute="trailing" id="BV0-Ib-DcB"/>
+                                            <constraint firstItem="vse-7c-XtX" firstAttribute="top" secondItem="iEA-fK-co5" secondAttribute="top" id="FXq-wO-ihD"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="NXP-Cb-7Yi" id="rz4-kT-DHl"/>
                                             <outlet property="containerView" destination="vse-7c-XtX" id="Tow-Z2-Thk"/>
                                         </connections>
                                     </collectionViewCell>
@@ -285,7 +296,7 @@
                             <constraint firstItem="c9L-tV-CpZ" firstAttribute="top" secondItem="czt-Tm-sQI" secondAttribute="bottom" constant="12" id="d7b-GX-NNL"/>
                             <constraint firstItem="kxk-jX-Zre" firstAttribute="centerY" secondItem="hD0-fX-7Eg" secondAttribute="centerY" id="dlH-a7-Moj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kxk-jX-Zre" secondAttribute="trailing" constant="12" id="gag-cg-naY"/>
-                            <constraint firstAttribute="trailing" secondItem="c9L-tV-CpZ" secondAttribute="trailing" id="hM4-1s-xMi"/>
+                            <constraint firstAttribute="trailing" secondItem="c9L-tV-CpZ" secondAttribute="trailing" constant="12" id="hM4-1s-xMi"/>
                             <constraint firstItem="a1M-5z-Ptn" firstAttribute="top" secondItem="Gak-Wu-mrK" secondAttribute="bottom" id="ou9-2m-i11"/>
                             <constraint firstItem="rHg-AQ-gzY" firstAttribute="centerX" secondItem="Gak-Wu-mrK" secondAttribute="centerX" id="rxh-5z-7HS"/>
                             <constraint firstItem="PJp-lQ-ru8" firstAttribute="centerX" secondItem="qU0-So-42v" secondAttribute="centerX" id="vAb-Zy-NMf"/>
