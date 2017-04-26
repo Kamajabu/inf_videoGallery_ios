@@ -49,15 +49,27 @@ extension PlayerViewController {
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        perform(#selector(self.actionOnFinishedScrolling), with: nil, afterDelay: Double(velocity.y))
+        perform(#selector(self.actionOnFinishedScrolling), with: nil, afterDelay: Double(velocity.x))
     }
 
     func actionOnFinishedScrolling() {
         if let visibleCell = collectionView.visibleCells.last {
+            //get Id of current cell
         trackId = collectionView.indexPath(for: visibleCell)!.row
-            let cell = visibleCell as! FullScreenCollectionViewCell
-            print(cell.index)
-            cell.loadPlayer(musicItems[trackId].videoAddress)
+            //if ids changed
+            let currentCell = collectionView.cellForItem(at: IndexPath(item: trackId, section: 0)) as! FullScreenCollectionViewCell
+            if (previousCell.index != currentCell.index) {
+//                let previousCell = collectionView.cellForItem(at: IndexPath(item: lastVisibleCellNumber, section: 0)) as! FullScreenCollectionViewCell
+//                previousCell.closePlayer()
+
+                previousCell.closePlayer()
+                currentCell.showVideo(musicItems[trackId].videoAddress)
+            }
+
+
+
+//                     print(cell.index)
+//            cell.showVideo(musicItems[trackId].videoAddress)
         }
 
 //        audioPlayer.currentTime = 0
@@ -67,10 +79,11 @@ extension PlayerViewController {
 //        loadMp3(trackId)
     }
 
+
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if let visibleCell = collectionView.visibleCells.last {
-            let cell = visibleCell as! FullScreenCollectionViewCell
-            cell.stopPlayer()
+            lastVisibleCellNumber = collectionView.indexPath(for: visibleCell)!.row
+            previousCell = collectionView.cellForItem(at: IndexPath(item: lastVisibleCellNumber, section: 0)) as! FullScreenCollectionViewCell
         }
     }
 

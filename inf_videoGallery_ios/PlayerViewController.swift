@@ -20,6 +20,9 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var playPause: UIButton!
     var isFirstStart = true
 
+    var lastVisibleCellNumber: Int!
+    var previousCell: FullScreenCollectionViewCell!
+
     var imageIndex: IndexPath?
     var musicItems: [MusicItem] = []
 
@@ -33,7 +36,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.delegate = self
 
         chooseImageTitleArtist(trackId)
-        loadMp3(trackId)
     }
 
     override func viewDidLayoutSubviews() {
@@ -48,7 +50,7 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func viewDidAppear(_ animated: Bool) {
         if let visibleCell = collectionView.visibleCells.last {
             let cell = visibleCell as! FullScreenCollectionViewCell
-            cell.loadPlayer(musicItems[trackId].videoAddress)
+            cell.showVideo(musicItems[trackId].videoAddress)
         }
 
     }
@@ -131,9 +133,7 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
         audioPlayer.currentTime = 0
         progressView.progress = 0
 
-        chooseImageTitleArtist(trackId)
-        loadMp3(trackId)
-    }
+        chooseImageTitleArtist(trackId)    }
 
     @IBAction func nextAction(_ sender: AnyObject) {
 
@@ -149,8 +149,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
         progressView.progress = 0
 
         chooseImageTitleArtist(trackId)
-        loadMp3(trackId)
-
     }
 
     func chooseImageTitleArtist(_ trackId: Int) {
@@ -163,23 +161,4 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
 
 
-    func loadMp3(_ trackId: Int) {
-        let path = Bundle.main.path(forResource: "\(musicItems[trackId].fileName)", ofType: "mp3")
-
-        if let path = path {
-            let mp3URL = URL(fileURLWithPath: path)
-
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: mp3URL)
-                audioPlayer.play()
-
-                Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(PlayerViewController.updateProgressView), userInfo: nil, repeats: true)
-                progressView.setProgress(Float(audioPlayer.currentTime/audioPlayer.duration), animated: false)
-                
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        }
-
-    }
 }
