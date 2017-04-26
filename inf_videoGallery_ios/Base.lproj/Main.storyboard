@@ -105,7 +105,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView verifyAmbiguity="ignoreSizes" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c9L-tV-CpZ">
+                            <collectionView verifyAmbiguity="ignoreSizes" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9L-tV-CpZ">
                                 <rect key="frame" x="12" y="32" width="363" height="392"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="41U-4m-5Gy">
@@ -122,24 +122,24 @@
                                             <rect key="frame" x="0.0" y="0.0" width="349" height="359"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pic_1" translatesAutoresizingMaskIntoConstraints="NO" id="tJs-ej-IWv">
-                                                    <rect key="frame" x="0.0" y="0.0" width="349" height="359"/>
-                                                    <color key="tintColor" red="0.50139677520000003" green="0.51015269760000004" blue="0.087808705870000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vse-7c-XtX">
+                                                    <rect key="frame" x="8" y="8" width="333" height="343"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.7050901651" green="0.79234653710000003" blue="0.90155589579999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.68915671109999999" green="0.086102761329999999" blue="0.3450102806" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="leading" secondItem="iEA-fK-co5" secondAttribute="leading" id="7NX-Gg-xwx"/>
-                                            <constraint firstAttribute="trailing" secondItem="tJs-ej-IWv" secondAttribute="trailing" id="8aO-0z-Pce"/>
-                                            <constraint firstItem="tJs-ej-IWv" firstAttribute="top" secondItem="iEA-fK-co5" secondAttribute="top" id="aX7-t2-Hr1"/>
+                                            <constraint firstItem="vse-7c-XtX" firstAttribute="top" secondItem="iEA-fK-co5" secondAttribute="topMargin" id="HSc-Fb-myG"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="vse-7c-XtX" secondAttribute="bottom" id="J06-ZC-hFe"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="vse-7c-XtX" secondAttribute="trailing" id="RaZ-gy-yVz"/>
                                             <constraint firstAttribute="top" secondItem="iEA-fK-co5" secondAttribute="top" id="fTG-bd-Sn5"/>
-                                            <constraint firstItem="tJs-ej-IWv" firstAttribute="leading" secondItem="iEA-fK-co5" secondAttribute="leading" id="ki7-zm-hDy"/>
-                                            <constraint firstAttribute="bottom" secondItem="tJs-ej-IWv" secondAttribute="bottom" id="ucV-Oh-5eS"/>
+                                            <constraint firstItem="vse-7c-XtX" firstAttribute="leading" secondItem="iEA-fK-co5" secondAttribute="leadingMargin" id="xhK-cp-5tU"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="itemImage" destination="tJs-ej-IWv" id="ate-dA-f3Q"/>
+                                            <outlet property="containerView" destination="vse-7c-XtX" id="Tow-Z2-Thk"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -315,7 +315,6 @@
         <image name="end" width="32" height="32"/>
         <image name="fast_forward" width="32" height="32"/>
         <image name="pause" width="32" height="32"/>
-        <image name="pic_1" width="400" height="225"/>
         <image name="rewind" width="32" height="32"/>
         <image name="shuffle" width="32" height="32"/>
         <image name="skip_to_start" width="32" height="32"/>

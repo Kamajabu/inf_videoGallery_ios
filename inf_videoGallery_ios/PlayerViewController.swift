@@ -26,7 +26,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
     var trackId: Int = 0
     var audioPlayer: AVAudioPlayer!
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +41,14 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
             self.collectionView?.scrollToItem(at: imageIndex!, at: .centeredHorizontally, animated: false)
             self.collectionView.reloadData()
             isFirstStart = false
+        }
+
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        if let visibleCell = collectionView.visibleCells.last {
+            let cell = visibleCell as! FullScreenCollectionViewCell
+            cell.loadPlayer()
         }
 
     }

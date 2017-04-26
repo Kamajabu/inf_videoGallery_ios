@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 private let reuseIdentifier = "CollectionViewCell"
 
@@ -30,10 +31,16 @@ extension PlayerViewController: CollectionViewCellDelegate {
         cell.backgroundView = UIView()
         cell.backgroundView!.addSubview(imageView)
 
-        cell.setGalleryItem(musicItems[indexPath.row])
+//        cell.setGalleryItem(musicItems[indexPath.row])
+//        cell.loadPlayer()
         cell.closeDelegate = self
 
+
         return cell
+    }
+
+    func temp() {
+
     }
 
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -59,6 +66,13 @@ extension PlayerViewController: CollectionViewCellDelegate {
 
         chooseImageTitleArtist(trackId)
         loadMp3(trackId)
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let visibleCell = collectionView.visibleCells.last {
+            let cell = visibleCell as! FullScreenCollectionViewCell
+            cell.stopPlayer()
+        }
     }
 
 

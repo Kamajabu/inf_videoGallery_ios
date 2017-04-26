@@ -144,11 +144,11 @@
 			isa = PBXGroup;
 			children = (
 				2C363F861EB0A14A00BB2999 /* Audios */,
-				2C363F7F1EB09DDF00BB2999 /* ViewControllers */,
 				2C363F7A1EB09DCF00BB2999 /* Model */,
 				2C363F751EB09D9B00BB2999 /* Views */,
 				2C363F6E1EB09D8F00BB2999 /* Styles */,
 				2C363F6D1EB09D8400BB2999 /* Data */,
+				2C363F7F1EB09DDF00BB2999 /* ViewControllers */,
 				2C363F3A1EB099B800BB2999 /* AppDelegate.swift */,
 				2C363F3E1EB099B800BB2999 /* Main.storyboard */,
 				2C363F441EB099B800BB2999 /* Assets.xcassets */,
