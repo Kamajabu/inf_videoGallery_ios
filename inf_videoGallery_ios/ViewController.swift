@@ -10,7 +10,8 @@ import UIKit
 
 
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+    
 
     @IBOutlet var collectionView: UICollectionView!
 
@@ -24,6 +25,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
 
         initGalleryItems()
+
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleLongPress))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        self.collectionView.addGestureRecognizer(lpgr)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -59,6 +66,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItemCollectionViewCell", for: indexPath) as! GalleryItemCollectionViewCell
 
         cell.setGalleryItem(musicItems[indexPath.row])
+
+
         return cell
         
     }
@@ -68,6 +77,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.performSegue(withIdentifier: "fullscreenSegue", sender: self)
 
     }
+
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -117,6 +127,38 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    var pressActionStarted = false
+    var currentCell: GalleryItemCollectionViewCell!
+
+
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+
+        if(!pressActionStarted){
+
+        let p = gestureReconizer.location(in: self.collectionView)
+        let indexPath = self.collectionView.indexPathForItem(at: p)
+
+        if let index = indexPath {
+            let cell = self.collectionView.cellForItem(at: index)
+            currentCell = cell as! GalleryItemCollectionViewCell
+            let trackId = index.row
+            currentCell.closePlayer()
+            currentCell.showVideo(musicItems[trackId].videoAddress)
+            print(index.row)
+        } else {
+            print("Could not find index path")
+        }
+            pressActionStarted = true
+        }
+
+                if gestureReconizer.state == UIGestureRecognizerState.ended {
+                    currentCell.closePlayer()
+                    currentCell.activityIndicator.isHidden = true
+                    pressActionStarted = false
+                    print("Finish-------")
+
+                }
     }
 }
 

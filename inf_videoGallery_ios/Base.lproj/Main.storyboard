@@ -55,6 +55,17 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="fVQ-GI-R3L">
+                                                    <rect key="frame" x="140" y="140" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="IgV-hV-pzy"/>
+                                                        <constraint firstAttribute="width" constant="20" id="ruP-RK-0Jw"/>
+                                                    </constraints>
+                                                </activityIndicatorView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="d08-f0-mlW">
+                                                    <rect key="frame" x="140" y="140" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </stackView>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -62,9 +73,13 @@
                                             <constraint firstItem="ZTQ-Ao-Xt1" firstAttribute="top" secondItem="WKL-3B-5ab" secondAttribute="top" id="CwW-xD-aSy"/>
                                             <constraint firstAttribute="bottom" secondItem="ZTQ-Ao-Xt1" secondAttribute="bottom" id="NLh-hZ-hcN"/>
                                             <constraint firstAttribute="trailing" secondItem="ZTQ-Ao-Xt1" secondAttribute="trailing" id="UFc-sz-SDi"/>
+                                            <constraint firstItem="fVQ-GI-R3L" firstAttribute="centerY" secondItem="WKL-3B-5ab" secondAttribute="centerY" id="f5E-5k-X3X"/>
+                                            <constraint firstItem="fVQ-GI-R3L" firstAttribute="centerX" secondItem="WKL-3B-5ab" secondAttribute="centerX" id="fwW-09-XRM"/>
                                             <constraint firstItem="ZTQ-Ao-Xt1" firstAttribute="leading" secondItem="WKL-3B-5ab" secondAttribute="leading" id="xmH-uP-EcI"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="fVQ-GI-R3L" id="vHp-1F-hq9"/>
+                                            <outlet property="containerView" destination="ZTQ-Ao-Xt1" id="572-WU-PXt"/>
                                             <outlet property="itemImageView" destination="ZTQ-Ao-Xt1" id="8hg-wU-JQZ"/>
                                         </connections>
                                     </collectionViewCell>

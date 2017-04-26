@@ -31,6 +31,7 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var containerView: UIView!
 
     var createLayerSwitch = true
+    
     func closePlayer(){
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -81,69 +82,4 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
         }
     }
 }
-
-
-
-
-//this is for the button, we will do it through storyboard
-//        containerView.addSubview(playerButton)
-//        playerButton.addTarget(containerView, action: #selector(playerButtonTapped), for: .touchUpInside)
-
-
-
-//        var asset = AVAsset(url: url as! URL)
-//        var imageGenerator = AVAssetImageGenerator(asset: asset)
-//        var time = CMTimeMake(1, 1)
-//
-//        var imageRef = try! imageGenerator.copyCGImage(at: time, actualTime: nil)
-//        var thumbnail = UIImage(cgImage:imageRef)
-//
-//        self.containerView.backgroundColor = UIColor(patternImage: thumbnail)
-
-
-//        let playerItem = AVPlayerItem(url: url! as URL)
-//        avPlayer.replaceCurrentItem(with: playerItem)
-
-
-
-//
-//    func createPlayer() {
-//
-//        //timer info
-//        let timeInterval : CMTime = CMTimeMakeWithSeconds(1.0, 10)
-//        timeWatcher = avPlayer.addPeriodicTimeObserver(forInterval: timeInterval,
-//                                                       queue: DispatchQueue.main, using: { [weak self] time in
-//                                                        self?.handlePlayerStatus(time: time)
-//
-//
-//        }) as AnyObject!
-//        //            // print("the time has now been:", CMTimeGetSeconds(elapsedTime))
-//        ////            self.containerView.observeTime(elapsedTime: elapsedTime)
-//        //            self.timeRemainingLabel.textColor = .white
-//        //            self.containerView.addSubview(self.timeRemainingLabel)
-//        //
-//        //            //buffer indicator
-//        ////            self.loadingIndicatorView.hidesWhenStopped = true
-//        ////            self.view.addSubview(self.loadingIndicatorView)
-//        ////            self.avPlayer.addObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp", options: .new, context: &playbackLikelyToKeepUpContext)
-//        //
-//        //        }) as AnyObject!
-//    }
-//
-//    func stopPlayer() {
-////        avPlayer.removeTimeObserver(timeWatcher)
-//        avPlayer.pause()
-////        avPlayer.removeTimeObserver(timeWatcher)
-////        avPlayer = nil
-//    }
-//
-//    func loadPlayer(_ videoAddress: String) {
-////        if(avPlayer == nil) {
-//            self.initPlayer(videoAddress)
-////        }
-//        avPlayer.play()
-//
-//    }
-//
-
 
