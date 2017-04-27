@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-
+import AVFoundation
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
@@ -16,6 +15,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet var collectionView: UICollectionView!
 
     var musicItems: [MusicItem] = []
+    var galleryItems: [UIImage] = []
+
     var selectedItem: IndexPath?
     
     // MARK: -
@@ -25,12 +26,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
 
         initGalleryItems()
+        downloadGalleryItems()
 
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleLongPress))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true
         lpgr.delegate = self
         self.collectionView.addGestureRecognizer(lpgr)
+    }
+
+    func downloadGalleryItems(){
+        for item in musicItems {
+        do {
+            let url = NSURL(string: item.videoAddress)
+            let asset = AVURLAsset(url: url as! URL, options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(5, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+
+            galleryItems.append(thumbnail)
+        } catch let error {
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -65,7 +84,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryItemCollectionViewCell", for: indexPath) as! GalleryItemCollectionViewCell
 
-        cell.setGalleryItem(musicItems[indexPath.row])
+        cell.setGalleryItem(galleryItems[indexPath.row])
 
 
         return cell
@@ -130,19 +149,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     var pressActionStarted = false
     var currentCell: GalleryItemCollectionViewCell!
+    var currentIndexPath: IndexPath!
 
 
     func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
 
         if(!pressActionStarted){
 
+
         let p = gestureReconizer.location(in: self.collectionView)
         let indexPath = self.collectionView.indexPathForItem(at: p)
 
         if let index = indexPath {
+            currentIndexPath = index
             let cell = self.collectionView.cellForItem(at: index)
             currentCell = cell as! GalleryItemCollectionViewCell
             let trackId = index.row
+
+            UIView.transition(with: currentCell.itemImageView, duration: 0.4, options: .transitionCrossDissolve, animations: {
+                self.currentCell.itemImageView.addBlurEffect()
+                            }, completion: nil)
+
             currentCell.closePlayer()
             currentCell.showVideo(musicItems[trackId].videoAddress)
             print(index.row)
@@ -156,6 +183,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     currentCell.closePlayer()
                     currentCell.activityIndicator.isHidden = true
                     pressActionStarted = false
+                    currentCell.itemImageView.backgroundColor = .black
+                    currentCell.setGalleryItem(galleryItems[currentIndexPath.row])
                     print("Finish-------")
 
                 }

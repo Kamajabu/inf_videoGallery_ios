@@ -22,20 +22,9 @@ class GalleryItemCollectionViewCell: UICollectionViewCell {
 
     var timeWatcher : AnyObject!
 
-    func setGalleryItem(_ item:MusicItem) {
-        do {
-            let url = NSURL(string: item.videoAddress)
-            let asset = AVURLAsset(url: url as! URL, options: nil)
-            let imgGenerator = AVAssetImageGenerator(asset: asset)
-            imgGenerator.appliesPreferredTrackTransform = true
-            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(5, 1), actualTime: nil)
-            let thumbnail = UIImage(cgImage: cgImage)
+    func setGalleryItem(_ item:UIImage) {
 
-            itemImageView.image = thumbnail
-
-        } catch let error {
-            print("*** Error generating thumbnail: \(error.localizedDescription)")
-        }
+            itemImageView.image = item
 
     }
 
