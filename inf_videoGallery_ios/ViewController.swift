@@ -166,9 +166,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             currentCell = cell as! GalleryItemCollectionViewCell
             let trackId = index.row
 
-            UIView.transition(with: currentCell.itemImageView, duration: 0.4, options: .transitionCrossDissolve, animations: {
-                self.currentCell.itemImageView.addBlurEffect()
-                            }, completion: nil)
+            self.currentCell.itemImageView.addAnimatedBlurEffect()
 
             currentCell.closePlayer()
             currentCell.showVideo(musicItems[trackId].videoAddress)
@@ -183,8 +181,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     currentCell.closePlayer()
                     currentCell.activityIndicator.isHidden = true
                     pressActionStarted = false
-                    currentCell.itemImageView.backgroundColor = .black
-                    currentCell.setGalleryItem(galleryItems[currentIndexPath.row])
+
+                    currentCell.itemImageView.animatedRemoveBlurEffect()
                     print("Finish-------")
 
                 }
