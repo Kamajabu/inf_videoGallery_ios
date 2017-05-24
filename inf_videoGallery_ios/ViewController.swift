@@ -25,6 +25,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        guard isInternetAvailable() else {
+            return
+        }
+
         initGalleryItems()
         downloadGalleryItems()
 

@@ -3,6 +3,11 @@
 import UIKit
 import AVFoundation
 
+struct ChangeVideoNotifications {
+    // Notification sent when a book is deleted having the book set to the notification object
+    static let videoChanged = Notification.Name("videoChangedNotification")
+}
+
 class PlayerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet var collectionView: UICollectionView!
@@ -19,10 +24,12 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     @IBOutlet weak var playPause: UIButton!
 
+    var currentCell: FullScreenCollectionViewCell!
+
     var isFirstStart = true
 
     var lastVisibleCellNumber: Int!
-    var previousCell: FullScreenCollectionViewCell!
+//    var previousCell: FullScreenCollectionViewCell!
 
     var imageIndex: IndexPath?
     var musicItems: [MusicItem] = []
@@ -36,6 +43,8 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.delegate = self
 
         chooseImageTitleArtist(trackId)
+
+        registerChangedVideoNotification() 
     }
 
     override func viewDidLayoutSubviews() {
@@ -56,8 +65,51 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
 
 
     @IBAction func playAction(_ sender: AnyObject) {
+        if !currentCell.isPlaying {
+            currentCell.resumeVideo()
+            animateButtonToPauseIcon(sender)
+        } else {
+            currentCell.pauseVideo()
+            animateButtonToPlayIcon(sender)
+        }
+
 
     }
+
+    func animateButtonToPlayIcon(_ sender: AnyObject) {
+        if let image = UIImage(named:"circled_play") {
+            UIView.transition(with: playPause, duration: 0.4, options: .transitionFlipFromRight, animations: {
+                sender.setImage(image, for: .normal)
+            }, completion: nil)
+        }
+    }
+
+    func animateButtonToPauseIcon(_ sender: AnyObject) {
+        if let image = UIImage(named: "pause") {
+            UIView.transition(with: playPause, duration: 0.4, options: .transitionFlipFromRight, animations: {
+                sender.setImage(image, for: .normal)
+            }, completion: nil)
+        }
+    }
+
+    fileprivate func registerChangedVideoNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveChangeVideoNotification),
+                                               name: ChangeVideoNotifications.videoChanged,
+                                               object: nil)
+    }
+
+    func didReceiveChangeVideoNotification(){
+        if !currentCell.isPlaying {
+            animateButtonToPlayIcon(playPause)
+        } else {
+            animateButtonToPauseIcon(playPause)
+        }
+
+    }
+
+
+
 
     func stopAction(_ sender: AnyObject) {
 

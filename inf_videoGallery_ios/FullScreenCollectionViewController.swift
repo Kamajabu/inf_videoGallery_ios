@@ -13,7 +13,6 @@ private let reuseIdentifier = "CollectionViewCell"
 
 extension PlayerViewController {
 
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return musicItems.count
     }
@@ -34,7 +33,6 @@ extension PlayerViewController {
         cell.closePlayer()
         cell.index = indexPath.row
 
-
         return cell
     }
 
@@ -44,15 +42,17 @@ extension PlayerViewController {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
-        let currentCell = cell  as! FullScreenCollectionViewCell
+        currentCell = cell as! FullScreenCollectionViewCell
         trackId = indexPath.row
         currentCell.closePlayer()
         currentCell.showVideo(musicItems[trackId].videoAddress)
-        
+        NotificationCenter.default.post(name: ChangeVideoNotifications.videoChanged, object: nil)
+
+
     }
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let currentCell = cell  as! FullScreenCollectionViewCell
+        var currentCell = cell  as! FullScreenCollectionViewCell
         trackId = indexPath.row
         currentCell.closePlayer()
     }
@@ -60,33 +60,4 @@ extension PlayerViewController {
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width , height: collectionView.frame.height )
     }
-
-
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
-//                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        perform(#selector(self.actionOnFinishedScrolling), with: nil, afterDelay: Double(velocity.x))
-//    }
-//
-//    func actionOnFinishedScrolling() {
-//        if let visibleCell = collectionView.visibleCells.last {
-//            //get Id of current cell
-//        trackId = collectionView.indexPath(for: visibleCell)!.row
-//            //if ids changed
-//            let currentCell = collectionView.cellForItem(at: IndexPath(item: trackId, section: 0)) as! FullScreenCollectionViewCell
-//            if (previousCell.index != currentCell.index) {
-//                previousCell.closePlayer()
-//                currentCell.showVideo(musicItems[trackId].videoAddress)
-//            }
-//
-//        }
-//    }
-//
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        if let visibleCell = collectionView.visibleCells.last {
-//            lastVisibleCellNumber = collectionView.indexPath(for: visibleCell)!.row
-//            previousCell = collectionView.cellForItem(at: IndexPath(item: lastVisibleCellNumber, section: 0)) as! FullScreenCollectionViewCell
-//        }
-//    }
-
-
 }

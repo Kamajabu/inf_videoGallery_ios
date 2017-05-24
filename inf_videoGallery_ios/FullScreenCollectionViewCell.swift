@@ -12,11 +12,12 @@ import AVFoundation
 class FullScreenCollectionViewCell: UICollectionViewCell {
 
     var index = 0
+    var isPlaying = false
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     //set variables for video play
     var playerItem:AVPlayerItem?
-    var player:AVPlayer?
+    var player: AVPlayer?
     var playerLayer = AVPlayerLayer()
 
     var timeWatcher : AnyObject!
@@ -51,13 +52,12 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
         player = AVPlayer(playerItem: playerItem!)
         playerLayer = AVPlayerLayer(player: player!)
 
-
-        //        containerView.backgroundColor = .black
         playerLayer.frame = containerView.bounds
 
         containerView.layer.addSublayer(playerLayer)
 
         player!.play()
+        isPlaying = true
 
         let timeInterval : CMTime = CMTimeMakeWithSeconds(1.0, 10)
         timeWatcher = player!.addPeriodicTimeObserver(forInterval: timeInterval, queue: DispatchQueue.main, using: { [weak self] time in
@@ -79,6 +79,20 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
         if player?.status == .unknown{
             activityIndicator.isHidden = false
             print("Buffering")
+        }
+    }
+
+    func pauseVideo() {
+        if let currentPlayer = player {
+        currentPlayer.pause()
+        isPlaying = false
+        }
+    }
+
+    func resumeVideo() {
+        if let currentPlayer = player {
+        currentPlayer.play()
+        isPlaying = true
         }
     }
 }
