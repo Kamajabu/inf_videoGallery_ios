@@ -271,7 +271,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PJp-lQ-ru8">
+                            <progressView opaque="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PJp-lQ-ru8">
                                 <rect key="frame" x="16" y="468" width="343" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="ZNC-Sl-oar"/>
@@ -292,6 +292,12 @@
                                     <constraint firstAttribute="height" constant="24" id="QYE-Zf-agm"/>
                                 </constraints>
                             </switch>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="k62-xk-yR6">
+                                <rect key="frame" x="-2" y="468" width="379" height="3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="FXe-Wr-yMS"/>
+                                </constraints>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -301,6 +307,7 @@
                             <constraint firstItem="PJp-lQ-ru8" firstAttribute="top" secondItem="c9L-tV-CpZ" secondAttribute="bottom" constant="44" id="3iQ-tO-ypB"/>
                             <constraint firstItem="rHg-AQ-gzY" firstAttribute="centerY" secondItem="hD0-fX-7Eg" secondAttribute="centerY" id="6jk-s4-Lia"/>
                             <constraint firstItem="Phi-h0-6t0" firstAttribute="top" secondItem="qU0-So-42v" secondAttribute="bottom" constant="13" id="8jZ-in-hdP"/>
+                            <constraint firstItem="k62-xk-yR6" firstAttribute="top" secondItem="c9L-tV-CpZ" secondAttribute="bottom" constant="44" id="BYb-ZO-JhG"/>
                             <constraint firstItem="qU0-So-42v" firstAttribute="top" secondItem="PJp-lQ-ru8" secondAttribute="bottom" constant="24" id="DJa-Dm-xy3"/>
                             <constraint firstItem="Phi-h0-6t0" firstAttribute="centerX" secondItem="Gak-Wu-mrK" secondAttribute="centerX" id="Kbj-rp-245"/>
                             <constraint firstItem="hD0-fX-7Eg" firstAttribute="leading" secondItem="c3h-r2-ECb" secondAttribute="leadingMargin" constant="12" id="Q3U-XI-AiG"/>
@@ -310,10 +317,12 @@
                             <constraint firstItem="Gak-Wu-mrK" firstAttribute="top" secondItem="Phi-h0-6t0" secondAttribute="bottom" constant="74" id="b5x-3w-OxM"/>
                             <constraint firstItem="c9L-tV-CpZ" firstAttribute="top" secondItem="czt-Tm-sQI" secondAttribute="bottom" constant="12" id="d7b-GX-NNL"/>
                             <constraint firstItem="kxk-jX-Zre" firstAttribute="centerY" secondItem="hD0-fX-7Eg" secondAttribute="centerY" id="dlH-a7-Moj"/>
+                            <constraint firstAttribute="trailing" secondItem="k62-xk-yR6" secondAttribute="trailing" id="eMZ-bc-Nup"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kxk-jX-Zre" secondAttribute="trailing" constant="12" id="gag-cg-naY"/>
                             <constraint firstAttribute="trailing" secondItem="c9L-tV-CpZ" secondAttribute="trailing" constant="12" id="hM4-1s-xMi"/>
                             <constraint firstItem="a1M-5z-Ptn" firstAttribute="top" secondItem="Gak-Wu-mrK" secondAttribute="bottom" id="ou9-2m-i11"/>
                             <constraint firstItem="rHg-AQ-gzY" firstAttribute="centerX" secondItem="Gak-Wu-mrK" secondAttribute="centerX" id="rxh-5z-7HS"/>
+                            <constraint firstItem="k62-xk-yR6" firstAttribute="leading" secondItem="c3h-r2-ECb" secondAttribute="leading" id="sRT-QC-dTJ"/>
                             <constraint firstItem="PJp-lQ-ru8" firstAttribute="centerX" secondItem="qU0-So-42v" secondAttribute="centerX" id="vAb-Zy-NMf"/>
                             <constraint firstItem="qU0-So-42v" firstAttribute="centerX" secondItem="Phi-h0-6t0" secondAttribute="centerX" id="wrf-US-uAE"/>
                             <constraint firstAttribute="trailing" secondItem="Gak-Wu-mrK" secondAttribute="trailing" id="zYj-jI-JIy"/>
@@ -325,7 +334,7 @@
                         <outlet property="nextSong" destination="VR0-Lx-Y0m" id="niC-iX-nSW"/>
                         <outlet property="playPause" destination="3M6-ZG-GA0" id="3wg-3n-Iml"/>
                         <outlet property="previousSong" destination="SG1-aF-7D0" id="YVr-AH-Gxz"/>
-                        <outlet property="progressView" destination="PJp-lQ-ru8" id="gvV-hJ-T2g"/>
+                        <outlet property="progressSlider" destination="k62-xk-yR6" id="xzl-rL-0p6"/>
                         <outlet property="rewindBack" destination="DrK-mu-Bkw" id="z64-XF-TBr"/>
                         <outlet property="rewindForward" destination="GIB-Q1-U9O" id="6Vr-cQ-OkB"/>
                         <outlet property="shuffle" destination="kxk-jX-Zre" id="l7l-KU-2HZ"/>

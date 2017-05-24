@@ -64,7 +64,6 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
          self?.handlePlayerStatus(time: time)
         }) as AnyObject!
 
-
         createLayerSwitch = false
     }
 
@@ -75,6 +74,7 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
             activityIndicator.isHidden = true
             // buffering is finished, the player is ready to play
             print("playing")
+            NotificationCenter.default.post(name: ChangeVideoNotifications.periodicUpdate, object: nil)
         }
         if player?.status == .unknown{
             activityIndicator.isHidden = false

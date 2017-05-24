@@ -6,13 +6,15 @@ import AVFoundation
 struct ChangeVideoNotifications {
     // Notification sent when a book is deleted having the book set to the notification object
     static let videoChanged = Notification.Name("videoChangedNotification")
+    static let periodicUpdate = Notification.Name("periodicUpdate")
 }
 
 class PlayerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet var collectionView: UICollectionView!
 
-    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var progressSlider: UISlider!
+//    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var songTitleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var shuffle: UISwitch!
@@ -97,6 +99,11 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
                                                selector: #selector(didReceiveChangeVideoNotification),
                                                name: ChangeVideoNotifications.videoChanged,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateVideoPlayerSlider),
+                                               name: ChangeVideoNotifications.periodicUpdate,
+                                               object: nil)
     }
 
     func didReceiveChangeVideoNotification(){
@@ -105,15 +112,41 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
         } else {
             animateButtonToPauseIcon(playPause)
         }
-
     }
 
+    func updateVideoPlayerSlider() {
+        // 1 . Guard got compile error because `videoPlayer.currentTime()` not returning an optional. So no just remove that.
+        let currentTimeInSeconds = CMTimeGetSeconds((currentCell.player?.currentTime())!)
+        // 2 Alternatively, you could able to get current time from `currentItem` - videoPlayer.currentItem.duration
 
+        let mins = currentTimeInSeconds / 60
+        let secs = currentTimeInSeconds.truncatingRemainder(dividingBy: 60)
+        let timeformatter = NumberFormatter()
+        timeformatter.minimumIntegerDigits = 2
+        timeformatter.minimumFractionDigits = 0
+        timeformatter.roundingMode = .down
+        guard let minsStr = timeformatter.string(from: NSNumber(value: mins)),
+            let secsStr = timeformatter.string(from: NSNumber(value: secs)) else {
+            return
+        }
+//        videoPlayerLabel.text = "\(minsStr).\(secsStr)"
+        progressSlider.value = Float(currentTimeInSeconds) // I don't think this is correct to show current progress, however, this update will fix the compile error
 
+        // 3 My suggestion is probably to show current progress properly
+        if let currentItem = currentCell.player?.currentItem {
+            let duration = currentItem.duration
+            if (CMTIME_IS_INVALID(duration)) {
+                // Do sth
+                return;
+            }
+            let currentTime = currentItem.currentTime()
+            progressSlider.value = Float(CMTimeGetSeconds(currentTime) / CMTimeGetSeconds(duration))
+        }
+    }
 
     func stopAction(_ sender: AnyObject) {
 
-        progressView.progress = 0
+        progressSlider.value = 0
     }
 
     @IBAction func pauseAction(_ sender: AnyObject) {
@@ -127,7 +160,6 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     }
 
-
     @IBAction func previousAction(_ sender: AnyObject) {
         if shuffle.isOn {
             trackId = Int(arc4random_uniform(UInt32(musicItems.count)))
@@ -137,7 +169,7 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
             trackId = 11
         }
 
-        progressView.progress = 0
+        progressSlider.value = 0
 
         chooseImageTitleArtist(trackId)    }
 
@@ -151,7 +183,7 @@ class PlayerViewController: UIViewController, UICollectionViewDataSource, UIColl
             trackId = 0
         }
 
-        progressView.progress = 0
+        progressSlider.value = 0
 
         chooseImageTitleArtist(trackId)
     }
