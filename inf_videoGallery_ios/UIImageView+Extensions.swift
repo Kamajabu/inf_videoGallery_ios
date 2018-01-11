@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIImageView{
+extension UIImageView {
     func addBlurEffect() {
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -41,7 +41,8 @@ extension UIImageView{
 
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
 
-        UIView.transition(with: self, duration: 0.4, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: self, duration: 0.4,
+                          options: .transitionCrossDissolve, animations: {
             self.addSubview(blurEffectView)
         }, completion: nil)
     }

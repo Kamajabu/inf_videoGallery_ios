@@ -9,8 +9,7 @@
 import Foundation
 import SystemConfiguration
 
-func isInternetAvailable() -> Bool
-{
+func isInternetAvailable() -> Bool {
     var zeroAddress = sockaddr_in()
     zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
     zeroAddress.sin_family = sa_family_t(AF_INET)

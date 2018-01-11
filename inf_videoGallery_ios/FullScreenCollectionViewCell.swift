@@ -2,41 +2,36 @@
 //  CollectionViewCell.swift
 //  Example
 //
-//  Created by Benjamin Emdon on 2016-12-28.
-//  Copyright © 2016 Benjamin Emdon.
+//  Created by Kamil Buczel on 29.03.2017.
+//  Copyright © 2017 Kamajabu. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 
 class FullScreenCollectionViewCell: UICollectionViewCell {
-
-    var index = 0
-    var isPlaying = false
-
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    //set variables for video play
+    @IBOutlet weak var containerView: UIView!
+
     var playerItem:AVPlayerItem?
     var player: AVPlayer?
     var playerLayer = AVPlayerLayer()
 
     var timeWatcher : AnyObject!
-
     var timeRemainingLabel = UILabel()
+    var index = 0
+    var isPlaying = false
 
     let seekSlider = UISlider()
     var playerRateBeforeSeek : Float = 0
-
     var isPlayerCreated = false
-
-    @IBOutlet weak var containerView: UIView!
 
     var createLayerSwitch = true
     
-    func closePlayer(){
+    func closePlayer() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        if (createLayerSwitch == false) {
+        if (!createLayerSwitch) {
             if let _ = player {
                 player!.pause()
             }
@@ -48,7 +43,7 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
     func showVideo(_ videoAddress: String) {
         let url = NSURL(string: videoAddress)
 
-        playerItem = AVPlayerItem(url: url as! URL)
+        playerItem = AVPlayerItem(url: url! as URL)
         player = AVPlayer(playerItem: playerItem!)
         playerLayer = AVPlayerLayer(player: player!)
 
@@ -73,12 +68,10 @@ class FullScreenCollectionViewCell: UICollectionViewCell {
         if player?.status == .readyToPlay {
             activityIndicator.isHidden = true
             // buffering is finished, the player is ready to play
-            print("playing")
             NotificationCenter.default.post(name: ChangeVideoNotifications.periodicUpdate, object: nil)
         }
         if player?.status == .unknown{
             activityIndicator.isHidden = false
-            print("Buffering")
         }
     }
 
